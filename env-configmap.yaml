@@ -5,7 +5,10 @@ metadata:
   namespace: default
 data:
   POSTGRES_HOST: postgres.c0diryduuk5u.us-east-1.rds.amazonaws.com
-  AWS_BUCKET: udacity-k8s-s3
+  AWS_BUCKET: arn:aws:s3:::udacity-k8s-s3
   AWS_REGION: us-east-1
   AWS_PROFILE: udacity
   URL: http://localhost:8100
+  POSTGRES_USERNAME: postgres
+  POSTGRES_PASSWORD: BWYt8bULhDAgGnj
+  POSTGRES_DB: postgres

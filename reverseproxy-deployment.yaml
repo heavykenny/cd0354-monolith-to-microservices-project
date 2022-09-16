@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: udagram-reverseproxy
-        image: heavykenny/udagram-reverseproxy:v1
+        image: heavykenny/udagram-reverseproxy:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8100

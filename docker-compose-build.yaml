@@ -4,6 +4,9 @@ services:
     build:
       context: ./udagram-reverseproxy
     image: reverseproxy
+    depends_on:
+      - backend_user
+      - backend_feed
   backend_user:
     build:
       context: ./udagram-api-user

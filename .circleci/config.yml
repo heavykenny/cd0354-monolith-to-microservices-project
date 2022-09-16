@@ -1,0 +1,33 @@
+version: 2
+jobs:
+  build:
+    working_directory: /sample
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --no-cache py-pip=9.0.0-r1
+            pip install docker-compose==1.15.0
+      - run:
+          name: Build Docker image
+          command: |
+            cd udagram-api-feed && docker build -t udagram-api-feed .
+            docker tag udagram-api-feed heavykenny/udagram-api-feed:latest && cd ..
+            cd udagram-api-user && docker build -t udagram-api-user .
+            docker tag udagram-api-user heavykenny/udagram-api-user:latest && cd ..
+            cd udagram-frontend && docker build -t udagram-frontend .
+            docker tag udagram-frontend heavykenny/udagram-frontend:latest && cd ..
+            cd udagram-reverseproxy && docker build -t udagram-reverseproxy .
+            docker tag udagram-reverseproxy heavykenny/udagram-reverseproxy:latest && cd ..
+      - deploy:
+          name: Push to Docker Hub
+          command: |
+            docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+            docker push $DOCKER_HUB_USER_ID/udagram-api-feed:latest
+            docker push $DOCKER_HUB_USER_ID/udagram-api-user:latest
+            docker push $DOCKER_HUB_USER_ID/udagram-frontend:latest
+            docker push $DOCKER_HUB_USER_ID/udagram-reverseproxy:latest
